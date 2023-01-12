@@ -1,19 +1,31 @@
 package dev.hectorgallego.springbootrestapi.service.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
+
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dev.hectorgallego.springbootrestapi.model.Role;
 import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.repository.RoleRepository;
 import dev.hectorgallego.springbootrestapi.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements IUserService {
 
+    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
-    public UserServiceImpl(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(RoleRepository roleRepository, UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
+        this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -37,6 +49,17 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public User createUser(User user) {
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        List<Role> roles = user.getRoles();
+        List<Role> rolesPersist = new ArrayList<>();
+
+        for (Role role : roles){
+            rolesPersist.add(roleRepository.findById(role.getId()).get());
+        }
+        user.setRoles(rolesPersist);
+        
         return userRepository.save(user);
     }
 
