@@ -13,7 +13,23 @@ spring:
             hibernate:
                 '[format_sql]': true
 
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: hector1231926@gmail.com
+        password: tnlikqlbehkdcvzj
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+
 rsa:
     public-key: classpath:certs/public.pem
     private-key: classpath:certs/private.pem
+
+
+
+
 

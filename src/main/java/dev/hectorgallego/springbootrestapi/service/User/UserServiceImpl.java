@@ -2,8 +2,7 @@ package dev.hectorgallego.springbootrestapi.service.User;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,13 +53,16 @@ public class UserServiceImpl implements IUserService {
 
         List<Role> roles = user.getRoles();
         List<Role> rolesPersist = new ArrayList<>();
-
         for (Role role : roles){
             rolesPersist.add(roleRepository.findById(role.getId()).get());
         }
-        user.setRoles(rolesPersist);
         
+        user.setRoles(rolesPersist);
+        String token =  UUID.randomUUID().toString();
+        user.setTokenVerificaton(token);
+        user.setEnabled(false); 
         return userRepository.save(user);
+
     }
 
     @Override

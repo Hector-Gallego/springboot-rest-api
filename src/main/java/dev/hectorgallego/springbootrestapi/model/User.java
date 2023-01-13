@@ -26,6 +26,8 @@ public class User {
     private String lastName;
     private String email;
     private String Password;
+    private String tokenVerification;
+    private boolean enabled;
 
     @ManyToMany
     @JoinTable(
@@ -81,6 +83,23 @@ public class User {
         this.roles = roles;
     }
 
+    public String getTokenVerificaton() {
+        return tokenVerification;
+    }
+
+    public void setTokenVerificaton(String tokenVerificaton) {
+        this.tokenVerification = tokenVerificaton;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    
     
 
     
