@@ -2,8 +2,10 @@ package dev.hectorgallego.springbootrestapi.service.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,15 +35,19 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findAll();
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("no se encointro al usuario con id: "+ id));
     }
+
 
     @Override
     @Transactional
     public void deleteUserById(Long id) {
+
+        getUserById(id);
         userRepository.deleteById(id);
     }
 
@@ -69,7 +75,7 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     public User updateUser(User user, Long id) {
 
-        User userPersist = userRepository.findById(id).get();
+        User userPersist = getUserById(id);
 
         userPersist.setFirstName(user.getFirstName());
         userPersist.setLastName(user.getLastName());
@@ -78,6 +84,14 @@ public class UserServiceImpl implements IUserService {
 
         return userRepository.save(userPersist);
         
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+
+        return userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("no se encontro al usuario con email: "+ email));
+            
+
     }
     
 }

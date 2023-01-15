@@ -12,6 +12,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -20,15 +23,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
+    @NotBlank
     @Column(name="first_name")
     private String firstName;
+
+    @NotBlank
     @Column(name="last_name")
     private String lastName;
+
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
     private String Password;
+
     private String tokenVerification;
     private boolean enabled;
 
+    @NotNull
     @ManyToMany
     @JoinTable(
         name = "user_has_role",

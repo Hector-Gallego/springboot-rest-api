@@ -9,5 +9,6 @@ public interface IRoleService {
     List<Role> getAllRoles();
     Role crateRole(Role role);
     void deleteRoleById(Long id);
+    Role getRoleById(Long id);
     
 }

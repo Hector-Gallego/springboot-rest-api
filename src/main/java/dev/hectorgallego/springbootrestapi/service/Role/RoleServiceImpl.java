@@ -1,6 +1,7 @@
 package dev.hectorgallego.springbootrestapi.service.Role;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,14 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     @Transactional
     public void deleteRoleById(Long id) {
+        getRoleById(id);
         roleRepository.deleteById(id);  
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public Role getRoleById(Long id) {
+        return roleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("no se encontro al rol con id:"+ id));
     }
     
 }

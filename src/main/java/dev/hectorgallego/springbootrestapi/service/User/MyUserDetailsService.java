@@ -1,9 +1,11 @@
 package dev.hectorgallego.springbootrestapi.service.User;
 
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 
 import dev.hectorgallego.springbootrestapi.model.MyUserDetails;
 import dev.hectorgallego.springbootrestapi.repository.UserRepository;
@@ -17,12 +19,14 @@ public class MyUserDetailsService implements UserDetailsService{
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException  {
         
+
+        System.out.println("************** buscando al usuario: "+ username + " ***********************");
         return userRepository
             .findByEmail(username)
             .map(MyUserDetails::new)
-            .orElseThrow(() -> new UsernameNotFoundException("user not found: "+username));
+            .orElseThrow(() -> new UsernameNotFoundException("credenciales incorrectas para el usuario: "+ username));       
     }
     
 }

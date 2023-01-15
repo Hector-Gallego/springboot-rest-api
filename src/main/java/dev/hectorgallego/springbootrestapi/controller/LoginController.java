@@ -16,7 +16,9 @@ import dev.hectorgallego.springbootrestapi.model.Login;
 import dev.hectorgallego.springbootrestapi.model.User;
 import dev.hectorgallego.springbootrestapi.service.TokenGeneretorService;
 import dev.hectorgallego.springbootrestapi.service.TokenVerificationService;
+import dev.hectorgallego.springbootrestapi.service.User.IUserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -26,42 +28,47 @@ public class LoginController {
     private final AuthenticationManager authManager;
     private final RegisterUserPublisher registerUserPublisher;
     private final TokenVerificationService tokenVerificationService;
-    
-
-    
-
-    
+    private final IUserService userService;
 
     public LoginController(TokenGeneretorService tokenService, AuthenticationManager authManager,
-            RegisterUserPublisher registerUserPublisher, TokenVerificationService tokenVerificationService) {
+            RegisterUserPublisher registerUserPublisher, TokenVerificationService tokenVerificationService,
+            IUserService userService) {
         this.tokenService = tokenService;
         this.authManager = authManager;
         this.registerUserPublisher = registerUserPublisher;
         this.tokenVerificationService = tokenVerificationService;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestBody Login login){
+    public String loginUser(@Valid @RequestBody Login login) {
 
-        Authentication auth = authManager
-            .authenticate(new UsernamePasswordAuthenticationToken(login.email(), login.password()));
-        return tokenService.GenerateToken(auth);
+
+            Authentication auth = authManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(login.email(), login.password()));
+            return tokenService.GenerateToken(auth);
+
     }
 
     @PostMapping("/register")
-    public void registerUserController(@RequestBody User user, HttpServletRequest request){
+    public User registerUserController(@Valid @RequestBody User user, HttpServletRequest request)
+            throws InterruptedException {
 
-
+   
         String url = request.getRequestURL()
-            .toString()
-            .replace(request.getServletPath(), "");
+                .toString()
+                .replace(request.getServletPath(), "");
 
-        registerUserPublisher.publishRegisterUserEvent(new RegisterUserEvent(user,url));
-        
+
+
+        registerUserPublisher.publishRegisterUserEvent(new RegisterUserEvent(user, url));
+
+        return userService.getUserByEmail(user.getEmail());
+
     }
-    
+
     @GetMapping("/verification/{token}")
-    public void verificationToken(@PathVariable String token){
+    public void verificationToken(@PathVariable String token) {
         tokenVerificationService.tokenVerification(token);
     }
 }

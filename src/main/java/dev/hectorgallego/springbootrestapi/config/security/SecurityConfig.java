@@ -23,8 +23,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-
-
 import dev.hectorgallego.springbootrestapi.service.User.MyUserDetailsService;
 
 @Configuration
@@ -58,7 +56,7 @@ public class SecurityConfig {
                 .disable()
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login", "/api/register").permitAll()
+                .requestMatchers("/api/login", "/api/register","/api/verification/**").permitAll()
                 .requestMatchers("/api/users/**", "/api/admin","/api/roles/**").hasAnyAuthority("SCOPE_ADMIN")
                 .requestMatchers("/api/useradmin").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
                 .anyRequest().authenticated()
@@ -90,5 +88,6 @@ public class SecurityConfig {
     JwtDecoder jwtDecoder(){
         return NimbusJwtDecoder.withPublicKey(rsaKeys.PublicKey()).build();
     }
+    
     
 }

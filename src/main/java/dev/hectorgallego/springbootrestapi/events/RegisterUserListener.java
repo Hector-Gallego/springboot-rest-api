@@ -4,7 +4,7 @@ package dev.hectorgallego.springbootrestapi.events;
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+//import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import dev.hectorgallego.springbootrestapi.model.User;
@@ -24,7 +24,7 @@ public class RegisterUserListener {
         this.sendVerificationEmailService = sendVerificationEmailService;
     }
 
-    @Async
+    //@Async
     @EventListener
     public void registerUser(RegisterUserEvent registerUserEvent) throws UnsupportedEncodingException, MessagingException {
 
