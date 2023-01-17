@@ -2,6 +2,7 @@ package dev.hectorgallego.springbootrestapi.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -58,6 +59,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/login", "/api/register","/api/verification/**").permitAll()
                 .requestMatchers("/api/users/**", "/api/admin","/api/roles/**").hasAnyAuthority("SCOPE_ADMIN")
+                .requestMatchers("/api/categories/**").hasAnyAuthority("SCOPE_ADMIN")
+                .requestMatchers(HttpMethod.PUT,"/api/products/**").hasAuthority("SCOPE_ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyAuthority("SCOPE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAnyAuthority("SCOPE_ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
                 .requestMatchers("/api/useradmin").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
                 .anyRequest().authenticated()
             )
