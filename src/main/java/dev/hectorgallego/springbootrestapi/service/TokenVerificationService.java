@@ -2,7 +2,7 @@ package dev.hectorgallego.springbootrestapi.service;
 
 import org.springframework.stereotype.Service;
 
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
 import dev.hectorgallego.springbootrestapi.repository.UserRepository;
 
 @Service

@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.hectorgallego.springbootrestapi.model.Product;
+import dev.hectorgallego.springbootrestapi.model.product.Product;
+import dev.hectorgallego.springbootrestapi.model.product.ProductDto;
 import dev.hectorgallego.springbootrestapi.service.product.IProductService;
 import jakarta.validation.Valid;
 
@@ -30,17 +31,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(){
+    public ResponseEntity<List<ProductDto>> getAllProducts(){
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id){
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id){
         return new ResponseEntity<>(productService.getProductById(id),  HttpStatus.OK);
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Product> getProductByName(@PathVariable String name){
+    public ResponseEntity<ProductDto> getProductByName(@PathVariable String name){
         return new ResponseEntity<>(productService.getProductByName(name),  HttpStatus.OK);
     }
 
@@ -62,7 +63,7 @@ public class ProductController {
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String name){
+    public ResponseEntity<List<ProductDto>> getProductsByCategory(@PathVariable String name){
         return new ResponseEntity<> (productService.getProductsByCategory(name), HttpStatus.OK);
     }
     

@@ -7,7 +7,7 @@ import org.springframework.context.event.EventListener;
 //import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
 import dev.hectorgallego.springbootrestapi.service.SendVerificationEmailService;
 import dev.hectorgallego.springbootrestapi.service.User.IUserService;
 import jakarta.mail.MessagingException;

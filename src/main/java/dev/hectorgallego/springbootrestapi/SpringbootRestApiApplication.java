@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import dev.hectorgallego.springbootrestapi.config.security.RsaKeyProperties;
 import dev.hectorgallego.springbootrestapi.model.Role;
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
 import dev.hectorgallego.springbootrestapi.repository.RoleRepository;
 import dev.hectorgallego.springbootrestapi.repository.UserRepository;
 

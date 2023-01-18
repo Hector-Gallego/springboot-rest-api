@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
+import dev.hectorgallego.springbootrestapi.model.user.UserDto;
 import dev.hectorgallego.springbootrestapi.service.User.IUserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,12 +30,12 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserDto>> getAllUsers(){
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id){
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id){
         return new ResponseEntity<>( userService.getUserById(id), HttpStatus.OK);
     }
 

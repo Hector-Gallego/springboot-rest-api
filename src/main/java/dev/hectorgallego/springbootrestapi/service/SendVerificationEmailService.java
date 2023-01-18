@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 

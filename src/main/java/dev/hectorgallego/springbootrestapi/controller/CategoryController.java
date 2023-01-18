@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.hectorgallego.springbootrestapi.model.Category;
+import dev.hectorgallego.springbootrestapi.model.category.Category;
+import dev.hectorgallego.springbootrestapi.model.category.CategoryDto;
 import dev.hectorgallego.springbootrestapi.service.category.ICategoryService;
 import jakarta.validation.Valid;
 
@@ -30,13 +31,13 @@ public class CategoryController {
 
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories(){
+    public ResponseEntity<List<CategoryDto>> getAllCategories(){
         return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategory(@PathVariable Long id){
-        return new ResponseEntity<Category>(categoryService.getCategoryById(null), HttpStatus.OK);
+    public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id){
+        return new ResponseEntity<>(categoryService.getCategoryById(null), HttpStatus.OK);
     }
 
     @PostMapping

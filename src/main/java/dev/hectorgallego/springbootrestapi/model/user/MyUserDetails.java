@@ -1,4 +1,4 @@
-package dev.hectorgallego.springbootrestapi.model;
+package dev.hectorgallego.springbootrestapi.model.user;
 
 import java.util.Collection;
 import java.util.List;

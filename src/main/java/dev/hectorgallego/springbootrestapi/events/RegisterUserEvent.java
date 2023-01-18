@@ -1,6 +1,6 @@
 package dev.hectorgallego.springbootrestapi.events;
 
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
 
 public class RegisterUserEvent {
 

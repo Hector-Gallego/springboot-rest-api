@@ -1,8 +1,8 @@
-package dev.hectorgallego.springbootrestapi.model;
+package dev.hectorgallego.springbootrestapi.model.product;
 
 import java.util.List;
 
-
+import dev.hectorgallego.springbootrestapi.model.category.Category;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

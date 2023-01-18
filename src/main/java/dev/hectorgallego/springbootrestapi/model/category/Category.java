@@ -1,10 +1,11 @@
-package dev.hectorgallego.springbootrestapi.model;
+package dev.hectorgallego.springbootrestapi.model.category;
 
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import dev.hectorgallego.springbootrestapi.model.product.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

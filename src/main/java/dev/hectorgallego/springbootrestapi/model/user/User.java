@@ -1,7 +1,8 @@
-package dev.hectorgallego.springbootrestapi.model;
+package dev.hectorgallego.springbootrestapi.model.user;
 
 import java.util.List;
 
+import dev.hectorgallego.springbootrestapi.model.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -6,8 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
-import dev.hectorgallego.springbootrestapi.model.MyUserDetails;
+import dev.hectorgallego.springbootrestapi.model.user.MyUserDetails;
 import dev.hectorgallego.springbootrestapi.repository.UserRepository;
 
 @Service

@@ -8,7 +8,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.hectorgallego.springbootrestapi.model.Product;
+import dev.hectorgallego.springbootrestapi.mapperdto.ProductMaper;
+import dev.hectorgallego.springbootrestapi.model.product.Product;
+import dev.hectorgallego.springbootrestapi.model.product.ProductDto;
 import dev.hectorgallego.springbootrestapi.repository.CategoryRepository;
 import dev.hectorgallego.springbootrestapi.repository.ProductRepository;
 
@@ -23,21 +25,25 @@ public class ProductServiceImpl implements IProductService {
         this.categoryRepository = categoryRepository;
     }
 
-
-    
     @Override
     @Transactional(readOnly = true)
-    public List<Product> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
 
-        return productRepository.findAll();
+        return productRepository
+                .findAll()
+                .stream()
+                .map(product -> ProductMaper.mapperProduct(product))
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Product getProductById(Long id) {
-        return productRepository
+    public ProductDto getProductById(Long id) {
+        Product product = productRepository
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("no se encontro al producto con id: " + id));
+
+        return ProductMaper.mapperProduct(product);
     }
 
     @Override
@@ -69,18 +75,18 @@ public class ProductServiceImpl implements IProductService {
     @Transactional
     public Product updateProduct(Product product, Long id) {
 
-        Product productPersist = getProductById(id);
+        Product productPersist = productRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("no se encontro el producto con id:" + id));
 
-        /* 
-        productPersist.setName(product.getName());
-        productPersist.setCategories(product.getCategories());
-        productPersist.setImgUrl(product.getImgUrl());
-        productPersist.setDescription(product.getDescription());
-        productPersist.setPrice(product.getPrice());
-        */
-        
+        /*
+         * productPersist.setName(product.getName());
+         * productPersist.setCategories(product.getCategories());
+         * productPersist.setImgUrl(product.getImgUrl());
+         * productPersist.setDescription(product.getDescription());
+         * productPersist.setPrice(product.getPrice());
+         */
+
         BeanUtils.copyProperties(product, productPersist, "id");
-        
 
         return createProduct(productPersist);
     }
@@ -92,19 +98,24 @@ public class ProductServiceImpl implements IProductService {
         productRepository.deleteById(id);
 
     }
-
-
+    
     @Override
-    public List<Product> getProductsByCategory(String name) {
-        return productRepository.findByCategoryName(name);
+    public List<ProductDto> getProductsByCategory(String name) {
+
+        return productRepository
+                .findByCategoryName(name)
+                .stream()
+                .map(Product -> ProductMaper.mapperProduct(Product))
+                .collect(Collectors.toList());
     }
 
-
-
     @Override
-    public Product getProductByName(String name) {
+    public ProductDto getProductByName(String name) {
         // TODO Auto-generated method stub
-        return productRepository.findByName(name).orElseThrow(()-> new NoSuchElementException("no se encontro al producto con nombre: "+ name));
+        Product product =  productRepository.findByName(name)
+                .orElseThrow(() -> new NoSuchElementException("no se encontro al producto con nombre: " + name));
+
+        return ProductMaper.mapperProduct(product);
     }
 
 }

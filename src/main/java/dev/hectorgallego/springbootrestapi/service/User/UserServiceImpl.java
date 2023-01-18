@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dev.hectorgallego.springbootrestapi.mapperdto.UserMapper;
 import dev.hectorgallego.springbootrestapi.model.Role;
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
+import dev.hectorgallego.springbootrestapi.model.user.UserDto;
 import dev.hectorgallego.springbootrestapi.repository.RoleRepository;
 import dev.hectorgallego.springbootrestapi.repository.UserRepository;
 
@@ -31,15 +34,22 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        
+        return userRepository
+            .findAll()
+            .stream()
+            .map((user)-> UserMapper.mapperUser(user))
+            .collect(Collectors.toList());
+        
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("no se encointro al usuario con id: "+ id));
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("no se encointro al usuario con id: "+ id));
+        return UserMapper.mapperUser(user);
     }
 
 
@@ -75,7 +85,7 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     public User updateUser(User user, Long id) {
 
-        User userPersist = getUserById(id);
+        User userPersist = userRepository.findById(id).orElseThrow( ()-> new NoSuchElementException("no se encointro al usuario con id: "+ id));
 
         userPersist.setFirstName(user.getFirstName());
         userPersist.setLastName(user.getLastName());
@@ -87,9 +97,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public UserDto getUserByEmail(String email) {
 
-        return userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("no se encontro al usuario con email: "+ email));
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("no se encontro al usuario con email: "+ email));
+        return UserMapper.mapperUser(user);
             
 
     }

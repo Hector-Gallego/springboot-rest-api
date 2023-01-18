@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.hectorgallego.springbootrestapi.events.RegisterUserEvent;
 import dev.hectorgallego.springbootrestapi.events.RegisterUserPublisher;
 import dev.hectorgallego.springbootrestapi.model.Login;
-import dev.hectorgallego.springbootrestapi.model.User;
+import dev.hectorgallego.springbootrestapi.model.user.User;
+import dev.hectorgallego.springbootrestapi.model.user.UserDto;
 import dev.hectorgallego.springbootrestapi.service.TokenGeneretorService;
 import dev.hectorgallego.springbootrestapi.service.TokenVerificationService;
 import dev.hectorgallego.springbootrestapi.service.User.IUserService;
@@ -51,10 +52,10 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public User registerUserController(@Valid @RequestBody User user, HttpServletRequest request)
+    public UserDto registerUserController(@Valid @RequestBody User user, HttpServletRequest request)
             throws InterruptedException {
 
-   
+
         String url = request.getRequestURL()
                 .toString()
                 .replace(request.getServletPath(), "");
